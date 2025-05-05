@@ -5,51 +5,51 @@ using TMPro;
 
 public class Coin : MonoBehaviour
 {
+    public static Coin Instance;
     public int CoinN;
     public TextMeshProUGUI CoinDisplay;
-    // Start is called before the first frame update
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
         UpdateCoinCountText();
-        
     }
 
-    public void Coins()
+    // Ta metoda jest wywo³ywana gdy scena jest za³adowana
+    void OnLevelWasLoaded(int level)
+    {
+        // ZnajdŸ nowy TextMeshProUGUI w nowej scenie
+        CoinDisplay = GameObject.FindGameObjectWithTag("CoinDisplay")?.GetComponent<TextMeshProUGUI>();
+        UpdateCoinCountText();
+    }
+
+    public void AddCoin()
     {
         CoinN++;
         UpdateCoinCountText();
     }
 
-
-    void Awake()
-    {
-        if (FindObjectsOfType<Coin>().Length > 99)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            DontDestroyOnLoad(gameObject); // Zapewnia, ¿e obiekt bêdzie trwa³ przez wszystkie sceny
-        }
-    }
-
     private void UpdateCoinCountText()
     {
-        
         if (CoinDisplay != null)
         {
             CoinDisplay.text = "Coins: " + CoinN.ToString();
-
         }
         else
         {
-            Debug.LogWarning("CoinCountText is not assigned!");  // Ostrze¿enie, jeœli nie przypisano Text UI
+            Debug.LogWarning("CoinCountText is not assigned!");
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-       
     }
 }

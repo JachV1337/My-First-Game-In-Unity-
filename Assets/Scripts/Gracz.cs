@@ -112,16 +112,8 @@ public class Gracz : MonoBehaviour
         
 
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Coin")
-        {
-            FindObjectOfType<Coin>().Coins();
-            Destroy(other.gameObject);
-            // Tu mo¿na particle dodaæ
-
-        }
-    }
+   
+    
 
 
 
